@@ -15,6 +15,32 @@ void print_list(nt *head){
 	}
 }
 
+int delete_item(nt **head, int n){
+	if(!head||!*head||n<0) return -1;
+
+	int i = 0;
+	int retval = -1;
+	nt *current = *head;
+
+	while(current && n > i){
+		current = current->next;
+		i++;
+	}
+
+	if(current->prev){
+		current->prev->next = current->next;
+	} else {
+		*head = current->next;
+	}
+
+	if(current->next){
+		current->next->prev = current->prev;
+	}
+
+	free(current);
+	return retval;
+}
+
 void print_list_back(nt *head){
 	nt *current = head;
 
@@ -50,6 +76,7 @@ int main(){
 
 	push(head, 2);
 	push(head, 3);
+	delete_item(&head, 2);
 
-	print_list_back(head);
+	print_list(head);
 }
